@@ -5,7 +5,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pre_app/admin_home.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrGenerationPage extends StatefulWidget {
@@ -19,7 +18,7 @@ class _QrGenerationPageState extends State<QrGenerationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key:_formKey,
+      key: _formKey,
       appBar: AppBar(
         title: const Text('QR Code Demo'),
       ),
@@ -34,7 +33,8 @@ class _QrGenerationPageState extends State<QrGenerationPage> {
             Text(randomString(4)),
             Container(
               child: RaisedButton(
-                onPressed: () => _submission,
+                onPressed: () =>
+                    Navigator.of(context).pushReplacementNamed('/admin_home'),
                 child: const Text('部屋情報へ'),
               ),
             ),
@@ -47,15 +47,11 @@ class _QrGenerationPageState extends State<QrGenerationPage> {
   void _submission() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      Navigator.of(context).pushReplacement( MaterialPageRoute(
-          settings: const RouteSettings(name: "/admin_home"),
-          builder: (context) {
-            return AdminHome();
-          }
-      ),);
+      Navigator.of(context).pushReplacementNamed('admin_home');
       Fluttertoast.showToast(msg: 'Processing Data');
     } else {
       print('submit_Fail');
+      const Text('エラー');
     }
   }
 

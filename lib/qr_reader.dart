@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:pre_app/user_home.dart';
 
 class QrReaderPage extends StatefulWidget {
   @override
@@ -80,7 +79,8 @@ class _QrReaderPageState extends State<QrReaderPage> {
               ),
               Container(
                 child: RaisedButton(
-                  onPressed: _submission,
+                  onPressed: () =>
+                      Navigator.of(context).pushReplacementNamed('/user_home'),
                   child: const Text('待ちジュンを確認'),
                 ),
               ),
@@ -93,17 +93,13 @@ class _QrReaderPageState extends State<QrReaderPage> {
 
   void _submission() {
     if (_formKey.currentState.validate()) {
+      debugPrint('qrReader_submit_success!!');
       _formKey.currentState.save();
-      Navigator.of(context).pushReplacement( MaterialPageRoute(
-          settings: const RouteSettings(name: "/user_home"),
-          builder: (context) {
-            return UserHome();
-          }
-      ),);
+      Navigator.of(context).pushReplacementNamed('/user_home');
       Fluttertoast.showToast(msg: 'Processing Data');
-      print(_passCode);
+      (_passCode);
     } else {
-      print('submit_Fail');
+      debugPrint('submit_Fail');
     }
   }
 }

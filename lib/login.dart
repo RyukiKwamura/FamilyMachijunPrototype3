@@ -134,7 +134,7 @@ class _LoginState extends State<Login> {
   void _submission() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      Navigator.of(context).pushNamed('/qr_generate');
+      Navigator.of(context).pushReplacementNamed('/qr_generate');
       Fluttertoast.showToast(msg: 'Processing Data');
       print(_storeName);
       print(_email);
