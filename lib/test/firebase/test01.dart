@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:timeago/timeago.dart' as timeago;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -71,8 +71,7 @@ class _MyList extends State<List> {
                 "【 ${document['borrowOrLend'] == "lend" ? "貸" : "借"} 】" +
                     document['stuff']),
             subtitle: Text('期限 ： ' +
-                timeago.format(firestoreTimestamp.toDate());
-                +
+                document['date'].toString().substring(0, 10) +
                 "\n相手 ： " +
                 document['user']),
           ),
@@ -261,3 +260,5 @@ class _MyInputFormState extends State<InputForm> {
     );
   }
 }
+
+// ToDo 参考書通りに足す
