@@ -63,11 +63,10 @@ class _UserEntryState extends State<UserEntry> {
   void _submission() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      Navigator.of(context).pushNamed('/qr_reader');
+      Navigator.of(context).pushReplacementNamed('/qr_reader');
       Fluttertoast.showToast(msg: 'Processing Data');
       print(_userName);
     } else {
-      const Text('失敗');
       print('submit_Fail');
     }
   }

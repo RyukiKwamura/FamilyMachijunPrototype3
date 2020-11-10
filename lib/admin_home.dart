@@ -1,12 +1,6 @@
 // 店舗用画面
 // 各部屋及び部屋ごとのユーザーを表示する
 
-// ToDo 店舗名取得
-// ToDo 参加しているユーザーを部屋ごとに表示
-// ToDo 参加ユーザを別の部屋に移動・削除できるボタンを設置
-
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class AdminHome extends StatefulWidget {
@@ -18,127 +12,98 @@ class AdminHome extends StatefulWidget {
 }
 
 class _AdminHomeState extends State<AdminHome> {
-  static const double _pageViewFraction = 0.8;
-  static const double _pageIndicatorFraction = 0.6;
-
-  final StreamController<int> _pageIndexSubject =
-      StreamController<int>.broadcast();
-  PageController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = PageController(
-      viewportFraction: _pageViewFraction,
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _pageIndexSubject.close();
-    super.dispose();
-  }
+  final _tab = <Tab>[
+    const Tab(text: '呼び出し部屋'),
+    const Tab(text: '待機部屋'),
+    const Tab(text: '遅延部屋'),
+    const Tab(text: '案内住み部屋'),
+  ];
+  int _currentIndex = 0;
+  final _pageWidgets = [
+    PageWidget(color: Colors.white, title: 'Home'),
+    PageWidget(color: Colors.blue, title: 'Album'),
+    PageWidget(color: Colors.orange, title: 'Chat'),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return DefaultTabController(
+      length: _tab.length,
+      child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              _buildPageView(),
-              const SizedBox(height: 8),
-              FractionallySizedBox(
-                widthFactor: _pageIndicatorFraction,
-                child: _buildPageIndicator(context),
-              ),
-            ],
+          title: const Text('店舗名と顧客名表示'),
+          bottom: TabBar(
+            tabs: _tab,
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: [
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.contacts),
-              title: Text('Contacts'),
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              title: Text('Map'),
-            ),
-            const BottomNavigationBarItem(
-              icon: Icon(Icons.chat),
-              title: Text('Chat'),
-            ),
+        body: const TabBarView(
+          children: <Widget>[
+            TabPage(title: '呼び出し部屋'),
+            TabPage(title: '待機部屋'),
+            TabPage(title: '遅延部屋'),
+            TabPage(title: '案内住み部屋'),
           ],
-        ));
-  }
-
-  Widget _buildPageView() {
-    return ConstrainedBox(
-      constraints: const BoxConstraints.expand(height: 120),
-      child: PageView(
-        onPageChanged: _pageIndexSubject.sink.add,
-        controller: _controller,
-        children:
-            List<Widget>.generate(widget.labelForChildren.length, (int index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: _buildPageViewChild(
-              index,
-              color: Colors.blue.withOpacity(1 / (index % 3 + 1)),
-              child: Center(child: Text(widget.labelForChildren[index])),
-            ),
-          );
-        }),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.home), title: Text('Home')),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.photo_album), title: Text('Album')),
+            const BottomNavigationBarItem(
+                icon: Icon(Icons.chat), title: Text('Chat')),
+          ],
+          currentIndex: _currentIndex,
+          fixedColor: Colors.blueAccent,
+          onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed,
+        ),
       ),
     );
   }
 
-  Widget _buildPageViewChild(
-    int index, {
-    Color color,
-    Widget child,
-  }) {
+  void _onItemTapped(int index) => setState(() => _currentIndex = index);
+}
+
+class TabPage extends StatelessWidget {
+  final IconData icon;
+  final String title;
+
+  const TabPage({Key key, this.icon, this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme.display1;
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Icon(icon, size: 64.0, color: textStyle.color),
+          Text(title, style: textStyle),
+        ],
+      ),
+    );
+  }
+}
+
+class PageWidget extends StatelessWidget {
+  final Color color;
+  final String title;
+
+  PageWidget({Key key, this.color, this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: color,
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: child,
-    );
-  }
-
-  Widget _buildPageIndicator(BuildContext context) {
-    return Wrap(
-      spacing: 4,
-      runSpacing: 4,
-      alignment: WrapAlignment.center,
-      children: List<Widget>.generate(
-        widget.labelForChildren.length,
-        (int index) {
-          return StreamBuilder<int>(
-            initialData: _controller.initialPage,
-            stream: _pageIndexSubject.stream.where((int pageIndex) =>
-                index >= pageIndex - 1 && index <= pageIndex + 1),
-            builder: (_, AsyncSnapshot<int> snapshot) {
-              return Container(
-                width: 6,
-                height: 6,
-                decoration: ShapeDecoration(
-                  shape: const CircleBorder(),
-                  color: snapshot.data == index
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey,
-                ),
-              );
-            },
-          );
-        },
+      color: color,
+      child: Center(
+        child: Text(
+          title,
+          style: const TextStyle(
+            fontSize: 25,
+          ),
+        ),
       ),
     );
   }

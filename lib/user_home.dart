@@ -9,28 +9,34 @@ class UserHome extends StatefulWidget {
 }
 
 class _UserHomeState extends State<UserHome> {
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('名前のホーム'),
+        title: const Text('店舗名をここに入れる'),
       ),
+      body: Container(
+          child: Center(
+        child: Text('ここに順番を入れる'),
+      )),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: <BottomNavigationBarItem>[
           const BottomNavigationBarItem(
-            icon: Icon(Icons.contacts),
-            title: Text('Contacts'),
-          ),
+              icon: Icon(Icons.home), title: Text('Home')),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            title: Text('Map'),
-          ),
+              icon: Icon(Icons.photo_album), title: Text('Album')),
           const BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            title: Text('Chat'),
-          ),
+              icon: Icon(Icons.chat), title: Text('Chat')),
         ],
+        currentIndex: _currentIndex,
+        fixedColor: Colors.blueAccent,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }
+
+  void _onItemTapped(int index) => setState(() => _currentIndex = index);
 }

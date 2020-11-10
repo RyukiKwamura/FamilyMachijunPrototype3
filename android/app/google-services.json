@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "588021598814",
+    "firebase_url": "https://machijunprototype-66c80.firebaseio.com",
+    "project_id": "machijunprototype-66c80",
+    "storage_bucket": "machijunprototype-66c80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:588021598814:android:f276715d4c8334a44842cf",
+        "android_client_info": {
+          "package_name": "com.example.pre_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "588021598814-1kducmel2p0enlil8t9fcu1oak936u2p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQSitYrtTOZ0gTEy4-vI_bqgO-9AyFEIs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "588021598814-1kducmel2p0enlil8t9fcu1oak936u2p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
