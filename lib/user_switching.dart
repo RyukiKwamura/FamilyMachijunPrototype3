@@ -12,6 +12,7 @@ class _SwitchPageState extends State<SwitchPage> {
   final String _appBarName = '待ちジュン-利用種別選択';
   final String _customer = '利用客';
   final String _company = '事業者';
+  final String _license = 'ライセンス表示';
 
   @override
   Widget build(BuildContext context) {

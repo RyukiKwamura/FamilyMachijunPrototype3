@@ -13,6 +13,7 @@ import 'package:pre_app/tutorial.dart';
 import 'package:pre_app/user_entry.dart';
 import 'package:pre_app/user_home.dart';
 import 'package:pre_app/user_switching.dart';
+import 'package:pre_app/license/licensePage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
         '/qr_reader': (context) => QrReaderPage(),
         '/qr_generate': (context) => QrGenerationPage(),
         '/user_home': (context) => UserHome(),
-        '/admin_home': (context) => AdminHome()
+        '/admin_home': (context) => AdminHome(),
+        '/licensePage':(context) => const LicensePage()
       },
     );
   }
@@ -49,7 +51,7 @@ class MyApp extends StatelessWidget {
 
 class MainPage extends StatelessWidget {
   final String _appBarName = '待ちジュン-チュートリアル';
-  final List<String> _buttonTitle = ['チュートリアルを見る', 'チュートリアル', 'チュートリアルを終わる'];
+  final List<String> _buttonTitle = ['チュートリアルを見る', 'チュートリアル', 'チュートリアルを終わる','ライセンス表示'];
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +67,18 @@ class MainPage extends StatelessWidget {
               Text(_buttonTitle[0]),
               RaisedButton(
                 onPressed: () =>
-                    Navigator.of(context).pushReplacementNamed('/tutorial'),
+                    Navigator.of(context).pushNamed('/tutorial'),
                 child: Text(_buttonTitle[1]),
               ),
               RaisedButton(
                 onPressed: () =>
-                    Navigator.of(context).pushReplacementNamed('/subpage'),
+                    Navigator.of(context).pushNamed('/subpage'),
                 child: Text(_buttonTitle[2]),
+              ),
+              RaisedButton(
+                onPressed: () =>
+                    Navigator.of(context).pushNamed('/licensePage'),
+                child: Text(_buttonTitle[3]),
               )
             ],
           ),
